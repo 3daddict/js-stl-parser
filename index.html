@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>STL Viewer</title>
+    <link rel="stylesheet" href="./assets/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
-<body>
 
-    
-<!-- JS Scripts -->
+<body>
+    <section class="section viewer-container">
+        <div class="container">
+                <h1 class="title">Stl Viewer</h1>
+            <div class="stl-viewer" id="stlViewer">
+                <!-- viewer-->
+            </div>
+        </div>
+    </section>
+
+
+    <!-- JS Scripts -->
     <!-- three.js -->
     <script src="./assets/js/three.js"></script>
     <script src="./assets/js/OrbitControls.js"></script>
@@ -20,4 +32,5 @@
     <!-- app.js -->
     <script src="./assets/js/app.js"></script>
 </body>
+
 </html>

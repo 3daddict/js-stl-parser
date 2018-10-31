@@ -1,3 +1,5 @@
+const stlViewer = document.getElementById('stlViewer');
+
 if ( WEBGL.isWebGLAvailable() === false ) {
     document.body.appendChild( WEBGL.getWebGLErrorMessage() );
 }
@@ -44,7 +46,7 @@ function init() {
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.shadowMap.enabled = true;
-    document.body.appendChild( renderer.domElement );
+    stlViewer.appendChild( renderer.domElement );
     //
     var controls = new THREE.OrbitControls( camera, renderer.domElement );
     controls.target.set( 0, 25, 0 );
@@ -85,7 +87,7 @@ function exportBinary() {
 }
 var link = document.createElement( 'a' );
 link.style.display = 'none';
-document.body.appendChild( link );
+stlViewer.appendChild( link );
 function save( blob, filename ) {
     link.href = URL.createObjectURL( blob );
     link.download = filename;
