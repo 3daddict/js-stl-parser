@@ -5,31 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>STL Viewer</title>
-    <link rel="stylesheet" href="./assets/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <title>STL</title>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
-    <section class="section viewer-container">
+    <section class="section">
         <div class="container">
-                <h1 class="title">Stl Viewer</h1>
-            <div class="stl-viewer" id="stlViewer">
-                <!-- viewer-->
-            </div>
+                <h1 class="title">Stl Volume Calculator</h1>
+                <p>Upload your STL file here</p>
+                <input type="file" id="stlUpload"  />
+        </div>
+        <div class="container">
+            <p>STL volume is <span id="stlVolume"></span>mm3.</p>
         </div>
     </section>
 
-
     <!-- JS Scripts -->
     <!-- three.js -->
-    <script src="./assets/js/three.js"></script>
-    <script src="./assets/js/OrbitControls.js"></script>
-    <script src="./assets/js/STLExporter.js"></script>
-    <script src="./assets/js/WebGL.js"></script>
-    <script src="./assets/js/dat.gui.min.js"></script>
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script src="https://threejs.org/examples/js/loaders/STLLoader.js"></script>
     <!-- app.js -->
+    <script src="./assets/js/fileUpload.js"></script>
     <script src="./assets/js/app.js"></script>
 </body>
 
