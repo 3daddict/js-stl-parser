@@ -9,6 +9,7 @@ loader.load(benchy, function(geometry) {
   let stlSize = getSize(geometry);
 
   document.querySelector('#stlVolume').textContent = calculatedStlVolume;
+  localStorage.setItem("stlVolume", calculatedStlVolume);
 
   let stlSizeOutput = {
     x: stlSize.x,
@@ -19,6 +20,9 @@ loader.load(benchy, function(geometry) {
   document.querySelector('#stlSizeL').textContent = Math.round(stlSizeOutput.x);
   document.querySelector('#stlSizeW').textContent = Math.round(stlSizeOutput.y);
   document.querySelector('#stlSizeH').textContent = Math.round(stlSizeOutput.z);
+  localStorage.setItem("stlSizeL", stlSizeOutput.x);
+  localStorage.setItem("stlSizeW", stlSizeOutput.y);
+  localStorage.setItem("stlSizeH", stlSizeOutput.z);
 });
 
 // check with known volume:
