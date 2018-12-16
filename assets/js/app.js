@@ -39,5 +39,12 @@ function getVolume(geometry) {
 
 function signedVolumeOfTriangle(p1, p2, p3) {
   return p1.dot(p2.cross(p3)) / 6.0;
-  
 }
+
+function getSize(geometry) {
+  let size = new THREE.Vector3();
+  let box = new THREE.Box3().setFromObject(geometry);
+  return box.getSize(size);
+}
+
+console.log('GETSIZE', getSize(benchy));
