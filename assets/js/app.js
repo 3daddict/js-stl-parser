@@ -1,101 +1,50 @@
-const stlViewer = document.getElementById('stlViewer');
+ 
+const benchy = '../assets/stl/3DBenchy.stl';
+const squareAscii = '../assets/stl/square-ascii.STL';
+const squareBinary = '../assets/stl/square-binary.STL';
 
-if ( WEBGL.isWebGLAvailable() === false ) {
-    document.body.appendChild( WEBGL.getWebGLErrorMessage() );
+var loader = new THREE.STLLoader();
+loader.load(benchy, function(geometry) {
+  let calculatedStlVolume = Math.round(getVolume(geometry));
+  // console.log("stl volume is " + getVolume(geometry));
+  document.querySelector('#stlVolume').textContent = calculatedStlVolume;
+});
+
+// check with known volume:
+var hollowCylinderGeom = new THREE.LatheBufferGeometry([
+  new THREE.Vector2(1, 0),
+  new THREE.Vector2(2, 0),
+  new THREE.Vector2(2, 2),
+  new THREE.Vector2(1, 2),
+  new THREE.Vector2(1, 0)
+], 90).toNonIndexed();
+
+function getVolume(geometry) {
+
+  let position = geometry.attributes.position;
+  let faces = position.count / 3;
+  let sum = 0;
+  let p1 = new THREE.Vector3(),
+      p2 = new THREE.Vector3(),
+      p3 = new THREE.Vector3();
+  for (let i = 0; i < faces; i++) {
+    p1.fromBufferAttribute(position, i * 3 + 0);
+    p2.fromBufferAttribute(position, i * 3 + 1);
+    p3.fromBufferAttribute(position, i * 3 + 2);
+    sum += signedVolumeOfTriangle(p1, p2, p3);
+  }
+  return sum;
+
 }
-var scene, camera, renderer, exporter, mesh;
-init();
-animate();
-function init() {
-    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
-    camera.position.set( 200, 100, 200 );
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0xa0a0a0 );
-    scene.fog = new THREE.Fog( 0xa0a0a0, 200, 1000 );
-    exporter = new THREE.STLExporter();
-    //
-    var hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
-    hemiLight.position.set( 0, 200, 0 );
-    scene.add( hemiLight );
-    var directionalLight = new THREE.DirectionalLight( 0xffffff );
-    directionalLight.position.set( 0, 200, 100 );
-    directionalLight.castShadow = true;
-    directionalLight.shadow.camera.top = 180;
-    directionalLight.shadow.camera.bottom = - 100;
-    directionalLight.shadow.camera.left = - 120;
-    directionalLight.shadow.camera.right = 120;
-    scene.add( directionalLight );
-    // ground
-    var ground = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
-    ground.rotation.x = - Math.PI / 2;
-    ground.receiveShadow = true;
-    scene.add( ground );
-    var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
-    grid.material.opacity = 0.2;
-    grid.material.transparent = true;
-    scene.add( grid );
-    // export mesh
-    var geometry = new THREE.BoxBufferGeometry( 50, 50, 50 );
-    var material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
-    mesh = new THREE.Mesh( geometry, material );
-    mesh.castShadow = true;
-    mesh.position.y = 25;
-    scene.add( mesh );
-    //
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    renderer.shadowMap.enabled = true;
-    stlViewer.appendChild( renderer.domElement );
-    //
-    var controls = new THREE.OrbitControls( camera, renderer.domElement );
-    controls.target.set( 0, 25, 0 );
-    controls.update();
-    //
-    var params = {
-        ASCII: function() {
-            exportASCII();
-        },
-        Binary: function() {
-            exportBinary();
-        }
-    };
-    var gui = new dat.GUI();
-    var folder = gui.addFolder( 'Export' );
-    folder.add( params, 'ASCII' );
-    folder.add( params, 'Binary' );
-    folder.open();
-    //
-    window.addEventListener( 'resize', onWindowResize, false );
+
+function signedVolumeOfTriangle(p1, p2, p3) {
+  return p1.dot(p2.cross(p3)) / 6.0;
 }
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+
+function getSize(geometry) {
+  let size = new THREE.Vector3();
+  let box = new THREE.Box3().setFromObject(geometry);
+  return box.getSize(size);
 }
-function animate() {
-    requestAnimationFrame( animate );
-    renderer.render( scene, camera );
-}
-function exportASCII() {
-    var result = exporter.parse( mesh );
-    saveString( result, 'box.stl' );
-}
-function exportBinary() {
-    var result = exporter.parse( mesh, { binary: true } );
-    saveArrayBuffer( result, 'box.stl' );
-}
-var link = document.createElement( 'a' );
-link.style.display = 'none';
-stlViewer.appendChild( link );
-function save( blob, filename ) {
-    link.href = URL.createObjectURL( blob );
-    link.download = filename;
-    link.click();
-}
-function saveString( text, filename ) {
-    save( new Blob( [ text ], { type: 'text/plain' } ), filename );
-}
-function saveArrayBuffer( buffer, filename ) {
-    save( new Blob( [ buffer ], { type: 'application/octet-stream' } ), filename );
-}
+
+console.log('GETSIZE', getSize(benchy));
