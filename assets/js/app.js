@@ -6,8 +6,19 @@ const squareBinary = '../assets/stl/square-binary.STL';
 var loader = new THREE.STLLoader();
 loader.load(benchy, function(geometry) {
   let calculatedStlVolume = Math.round(getVolume(geometry));
-  // console.log("stl volume is " + getVolume(geometry));
+  let stlSize = getSize(geometry);
+
   document.querySelector('#stlVolume').textContent = calculatedStlVolume;
+
+  let stlSizeOutput = {
+    x: stlSize.x,
+    y: stlSize.y,
+    z: stlSize.z
+  };
+
+  document.querySelector('#stlSizeL').textContent = Math.round(stlSizeOutput.x);
+  document.querySelector('#stlSizeW').textContent = Math.round(stlSizeOutput.y);
+  document.querySelector('#stlSizeH').textContent = Math.round(stlSizeOutput.z);
 });
 
 // check with known volume:
@@ -43,8 +54,7 @@ function signedVolumeOfTriangle(p1, p2, p3) {
 
 function getSize(geometry) {
   let size = new THREE.Vector3();
-  let box = new THREE.Box3().setFromObject(geometry);
-  return box.getSize(size);
+  geometry.computeBoundingBox();
+  geometry.boundingBox.getSize( size );
+  return size;
 }
-
-console.log('GETSIZE', getSize(benchy));
