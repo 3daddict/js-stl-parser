@@ -3,12 +3,27 @@ const benchy = '../assets/stl/3DBenchy.stl';
 const squareAscii = '../assets/stl/square-ascii.STL';
 const squareBinary = '../assets/stl/square-binary.STL';
 
+const uploadedStlFile = document.querySelector('#stlUpload');
+uploadedStlFile.addEventListener('change', (e) => {
+  console.log('UPLOADED_FILE: ', uploadedStlFile.files);
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const localStl = new Blob();
+    localStl.src = reader.result;
+    console.log('wueh', localStl.src);
+    localStorage.setItem("stl", localStl.src);
+  }
+  reader.readAsDataURL(uploadedStlFile.files[0]);
+}, false);
+
 var loader = new THREE.STLLoader();
-loader.load(benchy, function(geometry) {
+loader.load(localStorage.stl, function(geometry) {
   let calculatedStlVolume = Math.round(getVolume(geometry));
   let stlSize = getSize(geometry);
 
   document.querySelector('#stlVolume').textContent = calculatedStlVolume;
+  localStorage.setItem("stlVolume", calculatedStlVolume);
 
   let stlSizeOutput = {
     x: stlSize.x,
@@ -19,6 +34,9 @@ loader.load(benchy, function(geometry) {
   document.querySelector('#stlSizeL').textContent = Math.round(stlSizeOutput.x);
   document.querySelector('#stlSizeW').textContent = Math.round(stlSizeOutput.y);
   document.querySelector('#stlSizeH').textContent = Math.round(stlSizeOutput.z);
+  localStorage.setItem("stlSizeL", stlSizeOutput.x);
+  localStorage.setItem("stlSizeW", stlSizeOutput.y);
+  localStorage.setItem("stlSizeH", stlSizeOutput.z);
 });
 
 // check with known volume:
