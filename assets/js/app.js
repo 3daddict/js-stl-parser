@@ -3,11 +3,40 @@ const benchy = '../assets/stl/3DBenchy.stl';
 const squareAscii = '../assets/stl/square-ascii.STL';
 const squareBinary = '../assets/stl/square-binary.STL';
 
+const uploadedStlFile = document.querySelector('#stlUpload');
+uploadedStlFile.addEventListener('change', (e) => {
+  console.log('UPLOADED_FILE: ', uploadedStlFile.files);
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const localStl = new Blob();
+    localStl.src = reader.result;
+    console.log('wueh', localStl.src);
+    localStorage.setItem("stl", localStl.src);
+  }
+  reader.readAsDataURL(uploadedStlFile.files[0]);
+}, false);
+
 var loader = new THREE.STLLoader();
-loader.load(benchy, function(geometry) {
+loader.load(localStorage.stl, function(geometry) {
   let calculatedStlVolume = Math.round(getVolume(geometry));
-  // console.log("stl volume is " + getVolume(geometry));
+  let stlSize = getSize(geometry);
+
   document.querySelector('#stlVolume').textContent = calculatedStlVolume;
+  localStorage.setItem("stlVolume", calculatedStlVolume);
+
+  let stlSizeOutput = {
+    x: stlSize.x,
+    y: stlSize.y,
+    z: stlSize.z
+  };
+
+  document.querySelector('#stlSizeL').textContent = Math.round(stlSizeOutput.x);
+  document.querySelector('#stlSizeW').textContent = Math.round(stlSizeOutput.y);
+  document.querySelector('#stlSizeH').textContent = Math.round(stlSizeOutput.z);
+  localStorage.setItem("stlSizeL", stlSizeOutput.x);
+  localStorage.setItem("stlSizeW", stlSizeOutput.y);
+  localStorage.setItem("stlSizeH", stlSizeOutput.z);
 });
 
 // check with known volume:
@@ -43,8 +72,7 @@ function signedVolumeOfTriangle(p1, p2, p3) {
 
 function getSize(geometry) {
   let size = new THREE.Vector3();
-  let box = new THREE.Box3().setFromObject(geometry);
-  return box.getSize(size);
+  geometry.computeBoundingBox();
+  geometry.boundingBox.getSize( size );
+  return size;
 }
-
-console.log('GETSIZE', getSize(benchy));

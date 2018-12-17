@@ -14,10 +14,11 @@
         <div class="container">
                 <h1 class="title">Stl Volume Calculator</h1>
                 <p>Upload your STL file here</p>
-                <input type="file" id="stlUpload"  />
+                <input type="file" name="fileUpload" id="stlUpload" />
         </div>
         <div class="container">
             <p>STL volume is <span id="stlVolume"></span>mm3.</p>
+            <p>STL size is L: <span id="stlSizeL"></span> W: <span id="stlSizeW"></span> H: <span id="stlSizeH"></span> mm</p>
         </div>
     </section>
 
@@ -26,7 +27,6 @@
     <script src="https://threejs.org/build/three.min.js"></script>
     <script src="https://threejs.org/examples/js/loaders/STLLoader.js"></script>
     <!-- app.js -->
-    <script src="./assets/js/fileUpload.js"></script>
     <script src="./assets/js/app.js"></script>
 </body>
 
