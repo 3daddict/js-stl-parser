@@ -29,6 +29,7 @@ Distributed under the GNU GPLv3 license. See ``LICENSE`` for more information.
 [https://github.com/3daddict/js-stl-parser/](https://github.com/3daddict/js-stl-parser/)
 
 ## Contributing
+For details on contributing guides checkout the [https://github.com/3daddict/js-stl-parser/blob/master/CONTRIBUTING.md](CONTRIBUTING.md)
 
 1. Fork it (<https://github.com/3daddict/js-stl-parser/fork>)
 2. Create your feature branch (`git checkout -b feature/newFeaturer`)
