@@ -1,4 +1,4 @@
-# js-stl-parser
+# STL Parser in JavaScript
 > Web App to View and Parse STL Data built with HTML, CSS and Javascript
 
 Building an app that a user can upload an stl file and parse data from the 3d model. This will show model size, volume and from there we can add additional features.
