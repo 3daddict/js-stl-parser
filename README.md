@@ -33,6 +33,6 @@ For details on contributing guides checkout the [CONTRIBUTING.md](https://github
 
 1. Fork it (<https://github.com/3daddict/js-stl-parser/fork>)
 2. Create your feature branch (`git checkout -b feature/newFeaturer`)
-3. Commit your changes (`git commit -am 'Add some newFeaturer'`)
+3. Commit your changes (`git commit -m 'Add some newFeaturer'`)
 4. Push to the branch (`git push origin feature/newFeaturer`)
 5. Create a new Pull Request
