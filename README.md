@@ -24,7 +24,7 @@ Uses three.js, dependancies are already in the head of the index.html
     * Work in progress
 
 ## Meta
-Distributed under the XYZ license. See ``LICENSE`` for more information.
+Distributed under the GNU GPLv3 license. See ``LICENSE`` for more information.
 
 [https://github.com/3daddict/js-stl-parser/](https://github.com/3daddict/js-stl-parser/)
 
