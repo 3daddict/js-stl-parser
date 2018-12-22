@@ -11,14 +11,20 @@ uploadedStlFile.addEventListener('change', (e) => {
   reader.onload = () => {
     const localStl = new Blob();
     localStl.src = reader.result;
-    console.log('wueh', localStl.src);
-    localStorage.setItem("stl", localStl.src);
+    console.log('wueh', reader.result);
+    parseStl(reader.result);
+    // localStorage.setItem("stl", localStl.src);
   }
-  reader.readAsDataURL(uploadedStlFile.files[0]);
+  if ( reader.readAsBinaryString !== undefined ) {
+    reader.readAsBinaryString(uploadedStlFile.files[0]);
+  } else {
+    reader.readAsArrayBuffer( uploadedStlFile.files[0] );
+  }
 }, false);
 
+function parseStl(goop) {
 var loader = new THREE.STLLoader();
-loader.load(localStorage.stl, function(geometry) {
+loader.load(goop, function(geometry) {
   let calculatedStlVolume = Math.round(getVolume(geometry));
   let stlSize = getSize(geometry);
 
@@ -75,4 +81,6 @@ function getSize(geometry) {
   geometry.computeBoundingBox();
   geometry.boundingBox.getSize( size );
   return size;
+}
+
 }
