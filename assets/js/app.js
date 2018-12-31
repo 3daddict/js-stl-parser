@@ -1,30 +1,42 @@
  
-const benchy = '../assets/stl/3DBenchy.stl';
+const benchy = '../stl/3DBenchy.stl';
 const squareAscii = '../assets/stl/square-ascii.STL';
 const squareBinary = '../assets/stl/square-binary.STL';
 
-const uploadedStlFile = document.querySelector('#stlUpload');
-uploadedStlFile.addEventListener('change', (e) => {
-  console.log('UPLOADED_FILE: ', uploadedStlFile.files);
 
-  const reader = new FileReader();
-  reader.onload = () => {
-    const localStl = new Blob();
-    localStl.src = reader.result;
-    console.log('wueh', reader.result);
-    parseStl(reader.result);
-    // localStorage.setItem("stl", localStl.src);
-  }
-  if ( reader.readAsBinaryString !== undefined ) {
-    reader.readAsBinaryString(uploadedStlFile.files[0]);
-  } else {
-    reader.readAsArrayBuffer( uploadedStlFile.files[0] );
-  }
-}, false);
-
-function parseStl(goop) {
 var loader = new THREE.STLLoader();
-loader.load(goop, function(geometry) {
+//Target the input field
+const stlUpload = document.querySelector('#stlUpload');
+
+//Event listener on choose file
+stlUpload.addEventListener('change', function(e) {
+	console.log('event listener triggered');
+    //call file reader class
+	const reader = new FileReader();
+	reader.addEventListener( 'load', function ( event ) {
+		console.log('reader listener triggered');
+		var contents = event.target.result;
+
+		var geometry = new THREE.STLLoader().parse( contents );
+		geometry.sourceType = "stl";
+		geometry.sourceFile = file.name;
+
+		var material = new THREE.MeshStandardMaterial();
+
+		var mesh = new THREE.Mesh( geometry, material );
+		mesh.name = filename;
+
+		editor.execute( new AddObjectCommand( mesh ) );
+
+		console.log(contents);
+		console.log(geometry);
+		console.log(material);
+		console.log(mesh);
+
+	}, false);
+});
+
+loader.load(squareAscii, function(geometry) {
   let calculatedStlVolume = Math.round(getVolume(geometry));
   let stlSize = getSize(geometry);
 
@@ -83,4 +95,3 @@ function getSize(geometry) {
   return size;
 }
 
-}
