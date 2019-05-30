@@ -4,5 +4,13 @@
   "main": "index.js",
   "repository": "https://github.com/3daddict/js-stl-parser.git",
   "author": "Michael Salvati",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-stl": "^0.7.0",
+    "request": "^2.88.0"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  }
 }
